@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>Secure Secret Share</title>
+</head>
+
+<body>
+    <h1>Secure Secret Share</h1>
+
+    <div id="secret-entry">
+        <div>
+            <textarea id="entry" rows="21" cols="160" placeholder="Secret message here"></textarea>
+        </div>
+
+        <div>
+            <button onclick="storeSecret()">Create one-time link</button>
+        </div>
+
+        <h3>Security Features</h3>
+        <ul>
+            <li>Client side encryption. Your secret is only in cleartext in this browser, and in the recipients browser. (NYI)</li>
+            <li>Secret is only retrievable once, and is deleted after 24h if not fetched.</li>
+            <li>Minimal auditable source code available [here](https://github.com/dschlyter/simple-secret-share)</li>
+        </ul>
+    </div>
+
+    <div id="secret-stored" style="display: none">
+        <p>The link to your secret is:</p>
+
+        <pre id="secret-url"></pre>
+
+        <p>This link only works <strong>once</strong>, so do not use it yourself.</p>
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+</body>
+
+</html>

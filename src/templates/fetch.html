@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>Secure Secret Share</title>
+</head>
+
+<body>
+    <div id="fetch-pending">
+        Fetching your secret...
+    </div>
+
+    <div id="fetch-success" style="display: none">
+        <h3>Here is your secret:</h3>
+
+        <pre id="secret-data"></pre>
+
+        <p>Please store your secret somewhere safe (like a password manager) and close this window when you are done.</p>
+
+        <p>This window will automatically close in 15 minutes.</p>
+    </div>
+
+    <div id="fetch-fail" style="display: none">
+        <p>No secret was found for you :(</p>
+
+        <p>Secrets can only be fetched once, so this secret might already have been fetched.</p>
+
+        <p>It is also possible that this secret never existed, or that it was deleted 24 hours after entry.</p>
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='fetch.js') }}"></script>
+</body>
+
+</html>
