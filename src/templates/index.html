@@ -19,16 +19,15 @@
 
         <div>
             <button onclick="storeSecret()">Create one-time link</button>
+            <button onclick="generatePassword()">Generate a password</button>
         </div>
 
-        <!--
         <h3>Security Features</h3>
         <ul>
-            <li>Client side encryption. Your secret is only in cleartext in this browser, and in the recipients browser. (NYI)</li>
+            <li>Client side encryption. Your secret is only in cleartext in this browser, and in the recipients browser.</li>
             <li>Secret is only retrievable once, and is deleted after 24h if not fetched.</li>
-            <li>Minimal auditable source code available <a href="https://github.com/dschlyter/simple-secret-share">here</a> or using view source</li>
+            <li>Minimal auditable source code available <a href="https://github.com/dschlyter/simple-secret-share">here</a> or using view source.</li>
         </ul>
-        -->
     </div>
 
     <div id="secret-stored" style="display: none">
@@ -39,6 +38,7 @@
         <p>This link only works <strong>once</strong>, so do not use it yourself.</p>
     </div>
 
+    <script type="text/javascript" src="{{ url_for('static', filename='crypto.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
 </body>
 

@@ -1,6 +1,8 @@
 import binascii
 import collections
 import os
+import time
+import threading
 from datetime import datetime, timedelta
 from typing import Dict
 
@@ -8,7 +10,7 @@ from flask import Flask, jsonify, request, render_template
 
 app = Flask(__name__)
 
-
+store_lock = threading.Lock()
 Secret = collections.namedtuple('Secret', 'data expires')
 secret_store: Dict[str, Secret] = {}
 
@@ -33,15 +35,16 @@ def store_post():
 
     cryptographic_random_id = binascii.b2a_hex(os.urandom(16)).decode('ascii')
 
-    secret_store[cryptographic_random_id] = Secret(data=secret, expires=datetime.now() + timedelta(days=1))
+    with store_lock:
+        secret_store[cryptographic_random_id] = Secret(data=secret, expires=datetime.now() + timedelta(days=1))
 
     return jsonify({'secret_id': cryptographic_random_id})
 
 
 @app.route('/api/secrets/<secret_id>', methods=['GET'])
 def store_get(secret_id):
-    cleanup()
-    secret = secret_store.get(secret_id)
+    with store_lock:
+        secret = secret_store.get(secret_id)
 
     if secret:
         del secret_store[secret_id]
@@ -53,14 +56,26 @@ def store_get(secret_id):
 
 
 def cleanup():
-    global secret_store
-    secret_store = {key: secret
-                    for key, secret in secret_store.items()
-                    if secret.expires >= datetime.now()}
+    with store_lock:
+        secrets_before = len(secret_store)
+
+        expired_keys = [key
+                        for key, secret in secret_store.items()
+                        if secret.expires < datetime.now()]
+        for key in expired_keys:
+            del secret_store[key]
+
+        print("Cleanup done!",
+              secrets_before - len(secret_store), "secrets removed,",
+              len(secret_store), "secrets still in store")
 
 
-# TODO cleanup on timer
+def cleanup_thread():
+    while True:
+        time.sleep(15 * 60)
+        cleanup()
 
 
 if __name__ == '__main__':
+    threading.Thread(target=cleanup_thread, daemon=True).start()
     app.run(debug=True, host='0.0.0.0')
