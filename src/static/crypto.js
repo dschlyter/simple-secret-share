@@ -14,9 +14,7 @@ function encrypt(plaintext) {
     return keyPromise.then(key => {
         let encoded = new TextEncoder().encode(plaintext);
         let iv = randomBytes(16);
-        console.log("before", iv, encoded);
         let encryptPromise = crypto.subtle.encrypt({name: ALGO, iv: iv}, key, encoded);
-        console.log("Key", key);
         return encryptPromise.then(ciphertext => {
             return crypto.subtle.exportKey("raw", key)
                 .then(exportedKey => [buf2hex(iv) + "," + buf2hex(ciphertext), buf2hex(exportedKey)])
@@ -34,19 +32,15 @@ function randomBytes(numberOfBytes) {
  * @returns a promise with the clear text
  */
 function decrypt(ivAndCiphertext, decryptionKey) {
-    console.log("decrypting", ivAndCiphertext, decryptionKey);
     let parts = ivAndCiphertext.split(",");
     let iv = hex2buf(parts[0]);
     let ciphertext = hex2buf(parts[1]);
     let keyBuffer = hex2buf(decryptionKey);
-    console.log("after", iv, ciphertext);
 
     return crypto.subtle.importKey("raw", keyBuffer, {name: ALGO}, true, ["encrypt", "decrypt"]).then(
         importedKey => {
-            console.log("imported!", importedKey);
             return window.crypto.subtle.decrypt({name: ALGO, iv: iv}, importedKey, ciphertext)
                 .then(decrypted => {
-                    console.log("wat!?!?", decrypted);
                     return new TextDecoder("utf-8").decode(decrypted)
                 })
         }
@@ -71,6 +65,5 @@ function hex2buf(hex) {
         ret.push(parseInt(hex.substr(i, 2), 16));
     }
 
-    console.log(ret);
     return new Uint8Array(ret);
 }

@@ -12,8 +12,16 @@ meaning that you can verify everything yourself.
 Features
 --------
 
-* Client side crypto is utilized and the server never sees sensitive data
-* Secrets can only be fetched once and are cleaned up after 24 hours
+* Client side crypto is utilized and the server never sees sensitive data.
+* Secrets can only be fetched once and are cleaned up after 24 hours.
+* Deployable wherever you deploy your docker images.
+
+Setup
+-----
+
+    docker build -t simple-secret-share .
+    docker run -p 5000:5000 simple-secret-share
+    # replace docker run with whatever you use to deploy docker images
 
 Caveats
 -------
