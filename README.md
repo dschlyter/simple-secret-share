@@ -1,27 +1,30 @@
 Simple Secret Share
 ===================
 
-This is a minimal implementation of a secret sharing webapp. 
+This is a minimal implementation of a secret sharing web app. 
+A sender inputs a secret into the application, and is given a one-time link where the secret can be retrieved. 
 
-The use case is sharing credentials in a more secure way than Slack, email, etc, 
-and a more accessible way than GPG or other crypto solutions.
+The link to the secret can then be sent over a less secure channel like Slack or email, and is not exposed in the history afterwards.
 
-The code is minimal with 155 lines of javascript and 82 lines of python,
-meaning that you can verify everything yourself.
+The code is minimal with 155 lines of Javascript and 82 lines of python. 
+This means that you can verify everything yourself in just a few minutes.
 
 Features
 --------
 
-* Client side crypto is utilized and the server never sees sensitive data.
-* Secrets can only be fetched once and are cleaned up after 24 hours.
+* Secret are encrypted and decrypted in the browser. Sensitive data is never exposed to the server or network.
+* Secrets can only be retrieved once and are otherwise cleaned up after 24 hours.
 * Deployable wherever you deploy your docker images.
 
 Setup
 -----
 
+To run this locally.
+
     docker build -t simple-secret-share .
     docker run -p 5000:5000 simple-secret-share
-    # replace docker run with whatever you use to deploy docker images
+
+To run in production. Replace `docker run` with whatever you use to deploy docker images.
 
 Caveats
 -------
@@ -30,4 +33,4 @@ Caveats
 * No TLS included, you need to deploy this behind some kind of proxy.
 * The Docker image runs the dev-mode of Flask. This will not handle a large amount of traffic, but the intended use case is a very low volume of traffic.
 * Secrets are stored in memory and will be lost on redeploy (or if Kubernetes moves your pod).
-The intention is that this should be rare since secret should be consumed ASAP, and if it happens anyway the secret can be sent again.
+The intention is that this should be rare since secret should be consumed ASAP, and when it happens the secret can be sent one more time.
