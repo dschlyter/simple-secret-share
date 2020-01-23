@@ -35,5 +35,10 @@ function displayUrl(secretId, encryptionKey) {
 }
 
 function generatePassword() {
-    document.getElementById("entry").value = buf2hex(randomBytes(24));
+    let prevValue = document.getElementById("entry").value;
+    let newValue = buf2hex(randomBytes(24));
+    if (prevValue.length > 0) {
+        newValue = prevValue + "\n" + newValue;
+    }
+    document.getElementById("entry").value = newValue;
 }

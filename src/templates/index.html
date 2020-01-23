@@ -14,17 +14,17 @@
 
     <div id="secret-entry">
         <div>
-            <textarea id="entry" rows="21" cols="160" placeholder="Secret message here"></textarea>
+            <textarea id="entry" rows="21" cols="160" placeholder="Paste a secret here, or click below to generate a password."></textarea>
         </div>
 
         <div>
-            <button onclick="storeSecret()">Create one-time link</button>
+            <button onclick="storeSecret()">Encrypt and create a one-time link</button>
             <button onclick="generatePassword()">Generate a password</button>
         </div>
 
         <h3>Security Features</h3>
         <ul>
-            <li>Client side encryption. Your secret is only in cleartext in this browser, and in the recipients browser.</li>
+            <li>Client side encryption using AES 256 GCM. Your secret is only in cleartext in this browser, and in the recipients browser.</li>
             <li>Secret is only retrievable once, and is deleted after 24h if not fetched.</li>
             <li>Minimal auditable source code available <a href="https://github.com/dschlyter/simple-secret-share">here</a> or using view source.</li>
         </ul>
