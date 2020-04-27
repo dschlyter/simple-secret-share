@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
     <title>Secure Secret Share</title>
 </head>
 
@@ -18,8 +20,8 @@
         </div>
 
         <div>
-            <button onclick="storeSecret()">Encrypt and create a one-time link</button>
-            <button onclick="generatePassword()">Generate a password</button>
+            <button class="btn btn-success" onclick="storeSecret()">Encrypt and create a one-time link</button>
+            <button class="btn" id="generate-button" onclick="generatePassword()">Generate a password</button>
         </div>
 
         <h3>Security Features</h3>

@@ -35,10 +35,10 @@ function displayUrl(secretId, encryptionKey) {
 }
 
 function generatePassword() {
-    let prevValue = document.getElementById("entry").value;
-    let newValue = buf2hex(randomBytes(24));
-    if (prevValue.length > 0) {
-        newValue = prevValue + "\n" + newValue;
-    }
-    document.getElementById("entry").value = newValue;
+    document.getElementById("entry").value = buf2hex(randomBytes(24));
 }
+
+// After user input hide the password button in order to avoid user confusing password generation in a secret with protecting their secret with a password
+document.getElementById("entry").addEventListener('keydown', (event) => {
+    document.getElementById("generate-button").style.display = 'none';
+});
